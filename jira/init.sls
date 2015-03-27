@@ -10,9 +10,7 @@ include:
 unpack-jira-tarball:
   archive.extracted:
     - name: {{ jira.prefix }}
-#    - source: {{ jira.source_url }}/atlassian-jira-{{ jira.version }}.tar.gz
-    - source: salt://jira/atlassian-jira-6.4.tar.gz
-#    - source_hash:  salt://jira/conf/hashes
+    - source: {{ jira.source_url }}/atlassian-jira-{{ jira.version }}.tar.gz
     - source_hash: {{ salt['pillar.get']('jira:source_hash', '') }}
     - archive_format: tar
     - user: jira 

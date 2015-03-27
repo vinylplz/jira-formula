@@ -4,7 +4,7 @@
 
 {%- set default_version      = '6.4' %}
 {%- set default_prefix       = '/opt' %}
-{%- set default_source_url   = 'https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-%s.tar.gz' %}
+{%- set default_source_url   = 'https://downloads.atlassian.com/software/jira/downloads' %}
 {%- set default_log_root     = '/var/log/jira' %}
 {%- set default_jira_user    = 'jira' %}
 {%- set default_db_server    = 'localhost' %}
