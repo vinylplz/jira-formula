@@ -1,0 +1,12 @@
+# This file used to override advanced jira properties.
+# Syntax:
+# <property-name> = <value>
+#
+# A full list of property names and default values can be seen in:
+# <jira-application-dir>/WEB-INF/classes/jpm.xml
+
+{%- from 'jira/conf/settings.sls' import jira with context %}   
+jira.home = {{ jira.home }}
+
+jira.lf.gadget.color1 = {{ salt['pillar.get']('jira:lf:gadget:color1', '#3b73af') }}
+
