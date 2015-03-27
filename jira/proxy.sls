@@ -29,9 +29,11 @@ jira-vhost:
 
 disable-default-site:
   file.absent:
-    - name: /etc/apache2/sites-enabled/default
+    - name: /etc/apache2/sites-enabled/000-default
     - watch_in:
       - module: apache-reload
+    - require:
+      - file: enable-jira-site
 
 enable-jira-site:
   file.symlink:
@@ -39,6 +41,8 @@ enable-jira-site:
     - target: /etc/apache2/sites-available/jira
     - watch_in:
       - module: apache-reload
+    - require:
+      - file: jira-vhost
  
 # a2ensite jira:
 #   cmd.wait:
