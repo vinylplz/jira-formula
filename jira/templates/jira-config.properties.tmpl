@@ -8,5 +8,8 @@
 {%- from 'jira/conf/settings.sls' import jira with context %}   
 jira.home = {{ jira.home }}
 
-jira.lf.gadget.color1 = {{ salt['pillar.get']('jira:lf:gadget:color1', '#3b73af') }}
+{%- for property_name, property_value in salt['pillar.get']('jira:properties', {}).items() %}
+{{ property_name }} = {{ property_value }}
+{%- endfor %}
+
 
