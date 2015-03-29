@@ -28,3 +28,10 @@ Installs the jira standalone tarball and starts the service.  Configures
 Enables a basic Apache proxy for jira.
 
 
+Known Issues
+============
+* some options (generally jira.lf.*) do not load properly from jira-config.properties  
+  due to a bug in Jira.
+  see: https://jira.atlassian.com/browse/JRA-29904
+
+
