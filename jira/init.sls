@@ -18,7 +18,10 @@ unpack-jira-tarball:
     - if_missing: {{ jira.prefix }}/atlassian-jira-{{ jira.version }}-standalone
     - runas: jira
     - keep: True
-    - watch_in:
+    - require:
+      - module: jira-stop
+      - file: jira-init-script
+    - listen_in:
       - module: jira-restart
 
 fix-jira-filesystem-permissions:
@@ -64,7 +67,11 @@ jira-restart:
   module.wait:
     - name: service.restart
     - m_name: jira
-  
+
+jira-stop:
+  module.wait:
+    - name: service.stop
+    - m_name: jira  
 
 jira-init-script:
   file.managed:
@@ -83,7 +90,7 @@ jira-init-script:
     - source: salt://jira/templates/jira-config.properties.tmpl
     - user: {{ jira.user }}
     - template: jinja
-    - watch_in:
+    - listen_in:
       - module: jira-restart
 
 {{ jira.home }}/dbconfig.xml:
@@ -91,7 +98,7 @@ jira-init-script:
     - source: salt://jira/templates/dbconfig.xml.tmpl
     - user: {{ jira.user }}
     - template: jinja
-    - watch_in:
+    - listen_in:
       - module: jira-restart
 
 {{ jira.prefix }}/jira/atlassian-jira/WEB-INF/classes/jira-application.properties:
@@ -99,7 +106,7 @@ jira-init-script:
     - source: salt://jira/templates/jira-application.properties.tmpl
     - user: {{ jira.user }}
     - template: jinja
-    - watch_in:
+    - listen_in:
       - module: jira-restart
 
 {{ jira.prefix }}/jira/bin/setenv.sh:
@@ -108,7 +115,7 @@ jira-init-script:
     - user: {{ jira.user }}
     - template: jinja
     - mode: 0644
-    - watch_in:
+    - listen_in:
       - module: jira-restart
 
 # {{ jira.prefix }}/jira/conf/logging.properties:
@@ -118,20 +125,4 @@ jira-init-script:
 #     - template: jinja
 #     - watch_in:
 #       - module: jira-restart
-
-# /etc/apache2/sites-available/jira:
-#   file.managed:
-#     - source: salt://jira/jira.httpconf
-#     - user: root
-#     - group: root
-#     - mode: 0644
-# 
-# enable proxy:
-#   cmd.wait:
-#     - name: a2ensite jira
-#     - watch: 
-#       - file: /etc/apache2/sites-available/jira
-# 
-
-
 
